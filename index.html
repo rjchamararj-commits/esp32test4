@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ESP32 Real-time Analog Graph</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 30px;
+    }
+    canvas {
+      max-width: 800px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <h2>ESP32 Real-time Potentiometer Graph</h2>
+  <canvas id="myChart" width="800" height="400"></canvas>
+
+  <script>
+    // 🔹 Replace with your Firebase config
+   const firebaseConfig = {
+		apiKey: "AIzaSyBMtJC2oWeMJQGeOihAewpiYwwD7QXjf-k",
+		authDomain: "esp32-test3-5bbeb.firebaseapp.com",
+		databaseURL: "https://esp32-test3-5bbeb-default-rtdb.europe-west1.firebasedatabase.app",
+		projectId: "esp32-test3-5bbeb",
+		storageBucket: "esp32-test3-5bbeb.firebasestorage.app",
+		messagingSenderId: "948392507591",
+		appId: "1:948392507591:web:9a84027b7e9474fada26e2"
+	};
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Chart.js setup
+    const ctx = document.getElementById("myChart").getContext("2d");
+    const myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: "Potentiometer 1",
+            borderColor: "blue",
+            data: [],
+            fill: false
+          },
+          {
+            label: "Potentiometer 2",
+            borderColor: "red",
+            data: [],
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        animation: false,
+        scales: {
+          x: { title: { display: true, text: "Time" } },
+          y: { title: { display: true, text: "ADC Value" }, min: 0, max: 4095 }
+        }
+      }
+    });
+
+    // 🔹 Listen for Firebase updates
+    firebase.database().ref("sensors").on("value", snapshot => {
+      const data = snapshot.val();
+      if (data) {
+        const now = new Date().toLocaleTimeString();
+
+        myChart.data.labels.push(now);
+        myChart.data.datasets[0].data.push(data.pot1 || 0);
+        myChart.data.datasets[1].data.push(data.pot2 || 0);
+
+        // Keep last 20 points
+        if (myChart.data.labels.length > 20) {
+          myChart.data.labels.shift();
+          myChart.data.datasets[0].data.shift();
+          myChart.data.datasets[1].data.shift();
+        }
+
+        myChart.update();
+      }
+    });
+  </script>
+</body>
+</html>
