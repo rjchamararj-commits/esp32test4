@@ -91,7 +91,7 @@
 
       // Input update
       inputChart.data.labels.push(now);
-      inputChart.data.datasets[0].data.push(data.input.voltage || 0);
+      inputChart.data.datasets[0].data.push(data.input.input_voltage || 0);
       inputChart.data.datasets[1].data.push(data.input.current || 0);
       inputChart.data.datasets[2].data.push(data.input.power || 0);
       if (inputChart.data.labels.length > 20) {
@@ -125,5 +125,6 @@
   </script>
 </body>
 </html>
+
 
 
