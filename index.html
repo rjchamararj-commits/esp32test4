@@ -83,48 +83,49 @@
     const outputChart = createChart(document.getElementById("outputChart"), "Voltage", "Current", "Power", "red", "purple", "brown");
 
     // Firebase listener
-    db.ref("solar").on("value", snap => {
-      const data = snap.val();
-      if (!data) return;
+    db.ref().on("value", snap => {
+    const data = snap.val();
+    if (!data) return;
+  
+    const now = new Date().toLocaleTimeString();
 
-      const now = new Date().toLocaleTimeString();
-
-      // Input update
-      inputChart.data.labels.push(now);
-      inputChart.data.datasets[0].data.push(data.input.input_voltage || 0);
-      inputChart.data.datasets[1].data.push(data.input.current || 0);
-      inputChart.data.datasets[2].data.push(data.input.power || 0);
-      if (inputChart.data.labels.length > 20) {
-        inputChart.data.labels.shift();
-        inputChart.data.datasets.forEach(ds => ds.data.shift());
-      }
-      inputChart.update();
-
-      document.getElementById("inV").textContent = (data.input.input_voltage || 0).toFixed(2);
-      document.getElementById("inC").textContent = (data.input.input_current || 0).toFixed(2);
-      document.getElementById("inP").textContent = (data.input.input_power || 0).toFixed(2);
-
-      // Output update
-      outputChart.data.labels.push(now);
-      outputChart.data.datasets[0].data.push(data.output.voltage || 0);
-      outputChart.data.datasets[1].data.push(data.output.current || 0);
-      outputChart.data.datasets[2].data.push(data.output.power || 0);
-      if (outputChart.data.labels.length > 20) {
-        outputChart.data.labels.shift();
-        outputChart.data.datasets.forEach(ds => ds.data.shift());
-      }
-      outputChart.update();
-
-      document.getElementById("outV").textContent = (data.output.output_voltage || 0).toFixed(2);
-      document.getElementById("outC").textContent = (data.output.output_current || 0).toFixed(2);
-      document.getElementById("outP").textContent = (data.output.output_power || 0).toFixed(2);
-
-      // Efficiency update
-      document.getElementById("eff").textContent = (data.system.system_efficiency || 0).toFixed(2);
+    // Input update
+    inputChart.data.labels.push(now);
+    inputChart.data.datasets[0].data.push(data.input.input_voltage || 0);
+    inputChart.data.datasets[1].data.push(data.input.input_current || 0);
+    inputChart.data.datasets[2].data.push(data.input.input_power || 0);
+    if (inputChart.data.labels.length > 20) {
+      inputChart.data.labels.shift();
+      inputChart.data.datasets.forEach(ds => ds.data.shift());
+    }
+    inputChart.update();
+  
+    document.getElementById("inV").textContent = (data.input.input_voltage || 0).toFixed(2);
+    document.getElementById("inC").textContent = (data.input.input_current || 0).toFixed(2);
+    document.getElementById("inP").textContent = (data.input.input_power || 0).toFixed(2);
+  
+    // Output update
+    outputChart.data.labels.push(now);
+    outputChart.data.datasets[0].data.push(data.output.output_voltage || 0);
+    outputChart.data.datasets[1].data.push(data.output.output_current || 0);
+    outputChart.data.datasets[2].data.push(data.output.output_power || 0);
+    if (outputChart.data.labels.length > 20) {
+      outputChart.data.labels.shift();
+      outputChart.data.datasets.forEach(ds => ds.data.shift());
+    }
+    outputChart.update();
+  
+    document.getElementById("outV").textContent = (data.output.output_voltage || 0).toFixed(2);
+    document.getElementById("outC").textContent = (data.output.output_current || 0).toFixed(2);
+    document.getElementById("outP").textContent = (data.output.output_power || 0).toFixed(2);
+  
+    // Efficiency update
+    document.getElementById("eff").textContent = (data.system.system_efficiency || 0).toFixed(2);
     });
   </script>
 </body>
 </html>
+
 
 
 
