@@ -70,7 +70,7 @@
           animation: false,
           scales: {
             x: { title: { display: true, text: "Time" } },
-           
+            y: { title: { display: true, text: "Value" } }
           }
         }
       });
@@ -80,49 +80,26 @@
     const voltageChart = createChart(document.getElementById("voltageChart"), [
       { label: "Input Voltage", borderColor: "blue", data: [], fill: false },
       { label: "Output Voltage", borderColor: "red", data: [], fill: false }
-       { label: "Efficiency (%)", borderColor: "black", data: [], fill: false, yAxisID: 'y' }
     ]);
 
     const currentChart = createChart(document.getElementById("currentChart"), [
       { label: "Input Current", borderColor: "green", data: [], fill: false },
       { label: "Output Current", borderColor: "orange", data: [], fill: false }
-       { label: "Efficiency (%)", borderColor: "black", data: [], fill: false, yAxisID: 'y' }
     ]);
 
     const powerChart = createChart(document.getElementById("powerChart"), [
       { label: "Input Power", borderColor: "purple", data: [], fill: false },
       { label: "Output Power", borderColor: "brown", data: [], fill: false },
       { label: "Efficiency (%)", borderColor: "black", data: [], fill: false, yAxisID: 'y1' }
-      { label: "Efficiency (%)", borderColor: "black", data: [], fill: false, yAxisID: 'y2' }
     ]);
 
-    voltageChart.options.scales.y1 = {
-      position: 'left',
-      title: { display: true, text: 'Voltage (V)' },
-      min: 0,
-      max: 25
-    };
-    currentChart.options.scales.y1 = {
-      position: 'left',
-      title: { display: true, text: 'Current (mA)' },
-      min: 0,
-      max: 1000
-    };
-
-    powerChart.options.scales.y1 = {
-      position: 'left',
-      title: { display: true, text: 'Power (W)' },
-      min: 0,
-      max: 50
-    };
+    // Add secondary axis for efficiency
     powerChart.options.scales.y1 = {
       position: 'right',
       title: { display: true, text: 'Efficiency (%)' },
       min: 0,
       max: 100
     };
-
-    
 
     // Firebase listener
     db.ref().on("value", snap => {
@@ -171,4 +148,3 @@
   </script>
 </body>
 </html>
-
