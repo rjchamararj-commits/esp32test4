@@ -79,7 +79,8 @@
     // Charts
     const voltageChart = createChart(document.getElementById("voltageChart"), [
       { label: "Input Voltage", borderColor: "blue", data: [], fill: false },
-      { label: "Output Voltage", borderColor: "red", data: [], fill: false }
+      { label: "Output Voltage", borderColor: "red", data: [], fill: false },
+      { label: "Voltage (V)", borderColor: "black", data: [], fill: false, yAxisID: 'y' }
     ]);
 
     const currentChart = createChart(document.getElementById("currentChart"), [
@@ -93,6 +94,13 @@
       { label: "Efficiency (%)", borderColor: "black", data: [], fill: false, yAxisID: 'y1' }
     ]);
 
+    voltageChart.options.scales.y = {
+      position: 'left',
+      title: { display: true, text: 'Voltage (V)' },
+      min: 0,
+      max: 25
+    };
+    
     // Add secondary axis for efficiency
     powerChart.options.scales.y1 = {
       position: 'right',
@@ -148,4 +156,5 @@
   </script>
 </body>
 </html>
+
 
