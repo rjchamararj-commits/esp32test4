@@ -100,9 +100,9 @@
       }
       inputChart.update();
 
-      document.getElementById("inV").textContent = (data.input.voltage || 0).toFixed(2);
-      document.getElementById("inC").textContent = (data.input.current || 0).toFixed(2);
-      document.getElementById("inP").textContent = (data.input.power || 0).toFixed(2);
+      document.getElementById("inV").textContent = (data.input.input_voltage || 0).toFixed(2);
+      document.getElementById("inC").textContent = (data.input.input_current || 0).toFixed(2);
+      document.getElementById("inP").textContent = (data.input.input_power || 0).toFixed(2);
 
       // Output update
       outputChart.data.labels.push(now);
@@ -115,14 +115,15 @@
       }
       outputChart.update();
 
-      document.getElementById("outV").textContent = (data.output.voltage || 0).toFixed(2);
-      document.getElementById("outC").textContent = (data.output.current || 0).toFixed(2);
-      document.getElementById("outP").textContent = (data.output.power || 0).toFixed(2);
+      document.getElementById("outV").textContent = (data.output.output_voltage || 0).toFixed(2);
+      document.getElementById("outC").textContent = (data.output.output_current || 0).toFixed(2);
+      document.getElementById("outP").textContent = (data.output.output_power || 0).toFixed(2);
 
       // Efficiency update
-      document.getElementById("eff").textContent = (data.system.efficiency || 0).toFixed(2);
+      document.getElementById("eff").textContent = (data.system.system_efficiency || 0).toFixed(2);
     });
   </script>
 </body>
 </html>
+
 
